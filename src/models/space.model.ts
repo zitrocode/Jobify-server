@@ -1,17 +1,22 @@
 import { Schema, model } from "mongoose";
-import { ISpace } from "src/types/Space";
+import { ISpace } from "../types/Space";
 
-const SpaceSchema = new Schema<ISpace>(
+const spaceSchema = new Schema<ISpace>(
   {
     name: {
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: false,
+      default: null,
+    },
+
     user_id: Schema.ObjectId,
     project_id: Schema.ObjectId,
-    description: String,
   },
   { timestamps: true }
 );
 
-export default model("space", SpaceSchema);
+export default model("Space", spaceSchema);

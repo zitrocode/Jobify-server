@@ -1,9 +1,17 @@
 import { Schema, model } from "mongoose";
 import { IProject } from "../types/Project";
 
-const ProjectSchema = new Schema<IProject>(
+const projectSchema = new Schema<IProject>(
   {
-    name: String,
+    name: {
+      type: String,
+      required: true,
+    },
+    logo: {
+      type: String,
+      required: false,
+      default: null,
+    },
     description: {
       type: String,
       required: false,
@@ -14,4 +22,4 @@ const ProjectSchema = new Schema<IProject>(
   { timestamps: true }
 );
 
-export default model("project", ProjectSchema);
+export default model("Project", projectSchema);

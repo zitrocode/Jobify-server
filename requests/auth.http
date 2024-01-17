@@ -1,0 +1,21 @@
+@URL=http://localhost:3051/api/v1/auth
+
+POST {{URL}}/login
+Content-Type: application/json
+
+{
+  "username": "zitrocode",
+  "password": "12345678"
+}
+
+###
+
+POST {{URL}}/register
+Content-Type: application/json
+
+{
+  "name": "Pedro Lopez",
+  "email": "pedro@lopez.com",
+  "username": "pdrodev",
+  "password": "12345678"
+}

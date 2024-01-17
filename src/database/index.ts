@@ -1,16 +1,18 @@
 import mongoose from "mongoose";
+import config from "../config";
 
-export const init = async () => {
-  const USERNAME = process.env.MG_USERNAME || "";
-  const PASSWORD = process.env.MG_PASSWORD || "";
+export const connect = async (): Promise<void> => {
+  try {
+    const connection = config.database.uri
+      .replace("<username>", config.database.username)
+      .replace("<password>", config.database.password);
 
-  let URI: string = "";
-  if (process.env.MG_URI) {
-    URI = process.env.MG_URI.replace("<username>", USERNAME).replace(
-      "<password>",
-      PASSWORD
-    );
+    await mongoose.connect(connection);
+  } catch (err) {
+    if (err instanceof Error) {
+      return console.log(`Error connecting to database: ${err.message}`);
+    }
+
+    console.error("An unexpected error occurred:", err);
   }
-
-  return await mongoose.connect(URI);
 };

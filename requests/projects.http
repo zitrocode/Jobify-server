@@ -1,0 +1,24 @@
+@URL=http://localhost:3051/api/v1/projects
+
+GET {{URL}}
+
+###
+
+POST {{URL}}/add
+Content-Type: application/json
+
+{
+  "name": "Project X"
+}
+
+### 
+
+PUT {{URL}}/update/65a74244441677c1a648ee5e
+Content-Type: application/json
+
+{
+  "description": "This a testing"
+}
+
+###
+DELETE  {{URL}}/remove/65a74244441677c1a648ee5e

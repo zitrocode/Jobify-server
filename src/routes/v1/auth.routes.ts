@@ -1,25 +1,15 @@
 import { Router } from "express";
-import { body } from "express-validator";
 
-import { login, register } from "../../controllers/user.controller";
-import validationErrors from "../../middlewares/validateErrors";
+import * as auth from "../../controllers/auth.controller";
+import authentication from "../../middlewares/auth.middleware";
+import validation from "../../middlewares/validation.middleware";
+
+import * as validate from "../../validations/auth.validate";
 
 const router: Router = Router();
 
-router.post(
-  "/login",
-  body("username").trim().notEmpty(),
-  body("password").notEmpty(),
-  validationErrors,
-  login
-);
-
-router.post(
-  "/register",
-  body("username").trim().notEmpty(),
-  body("password").notEmpty(),
-  validationErrors,
-  register
-);
+router.post("/login", validation(validate.login), auth.login);
+router.post("/register", validation(validate.register), auth.register);
+router.get("/logout", authentication, auth.logout);
 
 export default router;

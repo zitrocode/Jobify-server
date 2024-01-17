@@ -1,0 +1,27 @@
+@URL=http://localhost:3051/api/v1/tasks
+
+GET {{URL}}
+
+### 
+
+POST {{URL}}/add
+Content-Type: application/json
+
+{
+  "name": "Design View Home",
+  "project_id": "65a7336f0062653cefbf0754",
+  "space_id": "65a733c40062653cefbf075a"
+}
+
+### 
+
+PUT {{URL}}/update/65a74ea36627f0400ed6bcd8
+Content-Type: application/json
+
+{
+  "description": "Design UI/UX"
+}
+
+### 
+
+DELETE {{URL}}/remove/65a74ea36627f0400ed6bcd8

@@ -1,30 +1,20 @@
-require("module-alias/register");
-
 import express, { Express, Request, Response } from "express";
-import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
 import cors from "cors";
 
-import * as db from "./database";
-import v1Routers from "./routes/v1";
-
-dotenv.config();
-const PORT: number = Number(process.env.PORT);
+import v1Routers from "./routes";
 
 const App: Express = express();
 App.use(cors());
+App.use(morgan("dev"));
 App.use(express.json());
-App.use(express.urlencoded({ extended: true }));
+App.use(cookieParser());
 
 App.get("/", (req: Request, res: Response): void => {
-  res.status(200).json({ message: "Homepage :D" });
+  res.status(200).json({ message: "Homepage" });
 });
 
-App.use("/api/v1", v1Routers);
+App.use("/api", v1Routers);
 
-App.listen(PORT, () => {
-  console.info(`The server in: http://localhost:${PORT}`);
-});
-
-db.init()
-  .then(() => console.log("Database conneted"))
-  .catch((err) => console.error("Error", err));
+export default App;

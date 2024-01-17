@@ -1,30 +1,26 @@
 import { Router } from "express";
-import { body, param } from "express-validator";
 
-import * as projects from "../../controllers/project.controller";
-import validateToken from "../../middlewares/validateToken";
+import * as controllers from "../../controllers/project.controller";
+
+import authentication from "../../middlewares/auth.middleware";
+import validation from "../../middlewares/validation.middleware";
+import * as validate from "../../validations/project.validate";
 
 const router: Router = Router();
 
-router.get("/", validateToken, projects.get);
-router.post(
-  "/add",
-  validateToken,
-  body("name").notEmpty(),
-  body("project_id").notEmpty(),
-  projects.add
-);
+router.get("/", authentication, controllers.get);
+router.post("/add", authentication, validation(validate.add), controllers.add);
 router.put(
   "/update/:id",
-  validateToken,
-  param("id").notEmpty(),
-  projects.update
+  authentication,
+  validation(validate.update),
+  controllers.update
 );
 router.delete(
   "/remove/:id",
-  validateToken,
-  param("id").notEmpty(),
-  projects.remove
+  authentication,
+  validation(validate.remove),
+  controllers.remove
 );
 
 export default router;

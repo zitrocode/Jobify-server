@@ -1,22 +1,16 @@
 import { Router } from "express";
-import { body } from "express-validator";
 
-import * as space from "../../controllers/space.controller";
-import validateToken from "../../middlewares/validateToken";
-import validationErrors from "../../middlewares/validateErrors";
+import * as controller from "../../controllers/space.controller";
+import authentication from "../../middlewares/auth.middleware";
+import validation from "../../middlewares/validation.middleware";
+
+import * as validate from "../../validations/space.validate";
 
 const router: Router = Router();
 
-router.get("/", validateToken, space.getAll);
-router.post(
-  "/add",
-  validateToken,
-  body("name").notEmpty(),
-  body("project_id").notEmpty(),
-  validationErrors,
-  space.add
-);
-router.put("/update/:id", validateToken, space.update);
-router.delete("/remove/:id", validateToken, space.remove);
+router.get("/", authentication, controller.getAll);
+router.post("/add", authentication, validation(validate.add), controller.add);
+router.put("/update/:id", authentication, controller.update);
+router.delete("/remove/:id", authentication, controller.remove);
 
 export default router;

@@ -1,17 +1,14 @@
-import { Request, Response } from "express";
-import { LocalStorage } from "node-localstorage";
+import { Response } from "express";
+import { Request } from "../types/Request";
 
 import ProjectModel from "../models/project.model";
-import { ISession } from "../utils/jwt";
-
-const localStorage = new LocalStorage("./scratch");
 
 export const get = async (req: Request, res: Response) => {
   try {
-    // Change to `express-session`
-    const session: ISession = JSON.parse(
-      localStorage.getItem("session") as string
-    )[0];
+    const session = req.user;
+    if (!session) {
+      return res.status(401).json({ message: "Session invalid" });
+    }
 
     const getSpaces = await ProjectModel.find({ user_id: session.id }).exec();
     res.status(200).json({ message: "Get all projects", data: getSpaces });
@@ -22,10 +19,10 @@ export const get = async (req: Request, res: Response) => {
 
 export const add = async (req: Request, res: Response) => {
   try {
-    // Change to `express-session`
-    const session: ISession = JSON.parse(
-      localStorage.getItem("session") as string
-    )[0];
+    const session = req.user;
+    if (!session) {
+      return res.status(401).json({ message: "Session invalid" });
+    }
 
     const { name, description } = req.body;
 
@@ -46,10 +43,10 @@ export const add = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
-    // Change to `express-session`
-    const session: ISession = JSON.parse(
-      localStorage.getItem("session") as string
-    )[0];
+    const session = req.user;
+    if (!session) {
+      return res.status(401).json({ message: "Session invalid" });
+    }
 
     const { id } = req.params;
     const { name, description } = req.body;
@@ -86,10 +83,10 @@ export const update = async (req: Request, res: Response) => {
 
 export const remove = async (req: Request, res: Response) => {
   try {
-    // Change to `express-session`
-    const session: ISession = JSON.parse(
-      localStorage.getItem("session") as string
-    )[0];
+    const session = req.user;
+    if (!session) {
+      return res.status(401).json({ message: "Session invalid" });
+    }
 
     const { id } = req.params;
 

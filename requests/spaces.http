@@ -1,0 +1,26 @@
+@URL=http://localhost:3051/api/v1/spaces
+
+GET {{URL}}
+
+###
+
+POST {{URL}}/add
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "project_id": "65a7336f0062653cefbf0754"
+}
+
+###
+
+PUT {{URL}}/update/65a74a1549bce2c67b109dbf
+Content-Type: application/json
+
+{
+  "description": "This a description"
+}
+
+###
+
+DELETE {{URL}}/remove/65a74a99f167aa55e88d0b85
